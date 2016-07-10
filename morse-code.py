@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# Raspberry Pi/3
+
 import pygame
 import time
 from RPi import GPIO
