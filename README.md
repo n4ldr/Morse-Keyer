@@ -1,2 +1,2 @@
-# Morse-Keyer
+Morse-Keyer
 Morse Code Keyer for Raspberry Pi / GetChip

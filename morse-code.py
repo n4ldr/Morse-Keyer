@@ -1,6 +1,4 @@
 #!/usr/bin/python
-# Raspberry Pi/3
-
 import pygame
 import time
 from RPi import GPIO
@@ -15,7 +13,7 @@ pygame.init()
 class ToneSound(pygame.mixer.Sound):
     def __init__(self, frequency, volume):
         self.frequency = frequency
-        pygame.mixer.Sound.__init__(self, self.build_samples())
+        pygame.mixer.Sound.__init__(self, buffer=self.build_samples())
         self.set_volume(volume)
 
     def build_samples(self):
