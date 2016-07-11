@@ -1,7 +1,14 @@
 #!/usr/bin/python
+# If having issues with GPIO commands on raspberryPi 3 try the following.
+# `sudo easy_install -U RPi.GPIO`
+# 
+# Audio Issues:
+# HDMI Audio:      sudo amixer cset numid=3 1
+# Headphone Audio: sudo amixer cset numid=3 2
+
 import pygame
 import time
-from RPi import GPIO
+import RPi.GPIO as GPIO
 import thread
 from array import array
 from pygame.locals import *
@@ -42,19 +49,19 @@ def decoder_thread():
     while True:
         time.sleep(.01)
         key_up_length = time.time() - key_up_time
-        if len(buffer) > 0 and key_up_length >= 1.5:
+        if len(buffer) > 0 and key_up_length >= 2:
             new_word = True
             bit_string = "".join(buffer)
             try_decode(bit_string)
             del buffer[:]
-        elif new_word and key_up_length >= 4.5:
+        elif new_word and key_up_length >= 4:
             new_word = False
             sys.stdout.write(" ")
             sys.stdout.flush()
 
-tone_obj = ToneSound(frequency = 800, volume = .5)
+tone_obj = ToneSound(frequency = 480, volume = .5)
 
-pin = 7
+pin =7
 GPIO.setmode(GPIO.BOARD)
 GPIO.setup(pin, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
@@ -78,4 +85,5 @@ while True:
     key_up_time = time.time() #record the time when the key was released
     key_down_length = key_up_time - key_down_time #get the length of time it was held down for
     tone_obj.stop()
-    buffer.append(DASH if key_down_length > 0.15 else DOT)
+    buffer.append(DASH if key_down_length > 0.20 else DOT)
+
